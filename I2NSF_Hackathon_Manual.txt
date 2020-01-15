@@ -1,0 +1,49 @@
+================================================================================================
+VPN
+- If you are using Windows
+	1) Check the PPT.
+- If you are using macOS
+	1) Download app "shimo"
+	2) Create a VPN connection with shimo
+	3) In shimo, accounts tab, click '+' button, and check 'PPTP/L2TP'.
+	4) Remote Host : dcnopnfv.asuscomm.com
+	5) Ask Username and Password to administrator
+	6) Enable the VPN account
+================================================================================================
+Check your VM's IP
+- Go To the OpenStack Dashboard
+	1) Go to 192.168.8.254 on your web browser.
+	2) Login with UserName and Password that you got from administrator.
+	3) Go to Project > Compute > Instance
+	4) Check your 'client-vm', 'server-vm', and 'security-controller' IPs. (Write it down somewhere)
+================================================================================================
+1. Connect SSH to your client vm.
+ - ssh root@<client-vm-ip>
+2. Connect SSH to your server vm.
+ - ssh root@<server-vm-ip>
+3. Try TCPDUMP on your server with the interface 'ens4'.
+ - tcpdump -i ens4
+4. Try CURL or PING to your server on client.
+ - CASE CURL:
+	- curl <server-vm-ip>
+ - CASE PING:
+	- ping <server-vm-ip>
+5. Check that the packet is delivered normally.
+================================================================================================
+6. Go to Security Controller Web Page.
+ - Go to <security-controller-ip> on your web browser.
+7. Make your own rule to control packets.
+ - Follow the administrator's sequence.
+8. After the VNFs creation completes, connect SSH to VNFs.
+ - ssh root@<vnf1-vm-ip>
+ if there vnf2-vm exists,
+	- ssh root@<vnf2-vm-ip>
+9. On the VNFs, try TCPDUMP with the interface 'ens4' (tcpdump -i ens4)
+ - tcpdump -i ens4
+10. Try CURL or PING to your server on client.
+ - CASE CURL:
+	- curl <server-vm-ip>
+ - CASE PING:
+	- ping <server-vm-ip>
+11. Check that the packet is going through VNFs, and with the rules that you've created.
+================================================================================================

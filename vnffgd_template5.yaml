@@ -1,0 +1,42 @@
+tosca_definitions_version: tosca_simple_profile_for_nfv_1_0_0
+
+#vnf1-to-vnf2-vnffgd
+description: DESC_MAIN_VAR
+
+topology_template:
+
+  node_templates:
+
+    FORWARDING_PATH_NAME_VAR:
+      type: tosca.nodes.nfv.FP.TackerV2
+      description: DESC_FOR_PATH_VAR #creates path (CP12->CP22)
+      properties:
+        id: PROP_ID_VAR #51
+        symmetrical: true
+        policy:
+          type: ACL
+          criteria:
+            - name: CRIT_NAME_VAR #vnf1_to_vnf2
+              classifier:
+                network_src_port_id: NET_SRC_PORT_ID_VAR
+                network_dst_port_id: 52cca11d-498b-40f0-9b92-85c26b5cbe74
+                ip_proto: IP_PROTO_VAR #1:ICMP, 4:IP, 6:TCP, 17:UDP
+                ip_dst_prefix: IP_DEST_PREFIX_VAR
+        path:
+          - forwarder: FORWARDER_1_VAR
+            capability: CAPA_1_VAR
+          - forwarder: FORWARDER_2_VAR
+            capability: CAPA_2_VAR
+
+  groups:
+    VNFFG1:
+      type: tosca.groups.nfv.VNFFG
+      description: HTTP to Corporate Net
+      properties:
+        vendor: tacker
+        version: 1.0
+        number_of_endpoints: 2
+        dependent_virtual_link: [VIRT_LINK_1_VAR,VIRT_LINK_2_VAR]
+        connection_point: [CON_POINT_1_VAR,CON_POINT_2_VAR]
+        constituent_vnfs: [CONST_VNFD_1_VAR,CONST_VNFD_2_VAR]
+      members: [FORWARDING_PATH_NAME_VAR]
